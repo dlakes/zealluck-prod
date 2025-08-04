@@ -1,6 +1,6 @@
 services:
   backend:
-    image: spaceserve/zealluck:1.0.0
+    image: spaceserve/zealluck:1.0.1
     container_name: nestjs-backend
     ports:
       - "3000:3000"
@@ -17,7 +17,7 @@ services:
   db:
     image: postgres:latest
     environment:
-      - POSTGRES_DB=hillpost
+      - POSTGRES_DB=zealluck_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=KyZryoIUg6i2009czentq2#
     env_file:
@@ -31,7 +31,7 @@ services:
        - ./static/:/app/static/
        - ./media/:/app/media/
      ports:
-       - "8080"
+       - "8080:8080"
       #  - "443:443"
       #  - "80:80"
      depends_on:

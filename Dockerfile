@@ -10,6 +10,8 @@ RUN yarn install
 # Copy source files
 COPY . .
 
+ENV DATABASE_URL="postgres://postgres:KyZryoIUg6i2009czentq2%23@192.168.0.24:5432/zealluck_db"
+
 RUN yarn prisma generate
 
 RUN yarn build
