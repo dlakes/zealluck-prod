@@ -1,0 +1,38 @@
+services:
+  backend:
+    image: spaceserve/zealluck:1.0.0
+    container_name: nestjs-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=hillpost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=KyZryoIUg6i2009czentq2#
+    env_file:
+      - .env
+
+  nginx:
+     image: nginx:latest
+     volumes:
+       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+       - ./certs:/etc/nginx/certs
+       - ./static/:/app/static/
+       - ./media/:/app/media/
+     ports:
+       - "8080"
+      #  - "443:443"
+      #  - "80:80"
+     depends_on:
+       - backend

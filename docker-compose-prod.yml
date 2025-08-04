@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: zealluck_user
+      POSTGRES_PASSWORD: 19890007fm
+      POSTGRES_DB: zealluck
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:KyZryoIUg6i2009czentq2%23@192.168.0.24:5432/zealluck_db
+    command: sh -c "yarn prisma migrate deploy && yarn start:prod"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./static/:/app/static/
+      # - ./media/:/app/media/
+    depends_on:
+      - app
+
+
+volumes:
+  db_data:
